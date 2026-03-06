@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Máquina Dashboard</title>
+<style>
+body { font-family: Arial; background: #111; color: #eee; }
+#alerts { margin: 10px; }
+.alert { padding: 5px; margin: 5px 0; border-radius: 4px; }
+.high { background: #e74c3c; }
+.low { background: #2ecc71; }
+</style>
+</head>
+<body>
+<h2>Máquina Dashboard</h2>
+<div id="alerts"></div>
+<script>
+let ws = new WebSocket("ws://" + location.host + "/ws");
+ws.onmessage = function(event) {
+    let alertsDiv = document.getElementById("alerts");
+    let div = document.createElement("div");
+    div.className = event.data.includes("ALERTA") ? "alert high" : "alert low";
+    div.textContent = event.data;
+    alertsDiv.prepend(div);
+};
+</script>
+</body>
+</html>
